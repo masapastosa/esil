@@ -1,12 +1,11 @@
 #include "../include/types.h"
 #include "../include/stack.h"
 #include "../include/esil.h"
+#include <string.h>
 
 #include <stdio.h>
 
 int main() {
-#ifdef TEST
-	#include <string.h>
 	// Stack tests
 	stack_t stack;
 	init_stack(&stack);
@@ -21,17 +20,16 @@ int main() {
 	free(stack.data);
 
 	// ESIL tests
-	i64 t_len;
+	i32 t_len;
 	char str[10];
 	strncpy(str, "1,2,+,3,2,[],GOTO", 18);
 	puts(str);
 	char** tokens = tokens_from_string(str, 17, &t_len);
-	printf("LEN: %" PRId64 "\n", t_len);
-	for(i64 i=0; i<t_len; i++) {
-		printf("TOKEN %" PRId64 ": %s\n", i, tokens[i]);
+	printf("LEN: %" PRId32 "\n", t_len);
+	for(i32 i=0; i<t_len; i++) {
+		printf("TOKEN %" PRId32 ": %s\n", i, tokens[i]);
 	}
 
 	free_tokens(tokens);
-#endif
 	return 0;
 }

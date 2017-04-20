@@ -1,26 +1,26 @@
-#include "../include/types.h"
 #include "../include/esil.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 
-//i64 find_index(char* const string, char delimiter, i64 length) {
-//	for (i64 i=0; i<length && string[i] != delimiter; i++) {}
-//	if (string[i] == delimiter) return i;
-//	else return -1;
-//}
+const char* esil_op_str[] = {
+	"+",
+	"-",
+	"*",
+	"/"
+};
 
-char** tokens_from_string(char* string, i64 length, i64 *tokens_length) {
-	i64 count = 1;
-	for(i64 i=0; i<length; i++) {
+char** tokens_from_string(char* string, i32 length, i32 *tokens_length) {
+	i32 count = 1;
+	for(i32 i=0; i<length; i++) {
 		if (string[i] == ESIL_DELIMITER) count++;
 	}
 
 	char** tokens = calloc(count, sizeof(char*));
 
-	i64 tokens_counter = 0;
-	i64 from = 0;
-	for (i64 i=0; i<length; i++) {
+	i32 tokens_counter = 0;
+	i32 from = 0;
+	for (i32 i=0; i<length && string[i] != 0; i++) {
 		if (string[i] == ESIL_DELIMITER) {
 			string[i] = 0;
 			if (i != 0) {
@@ -45,4 +45,37 @@ char** tokens_from_string(char* string, i64 length, i64 *tokens_length) {
 
 void free_tokens(char** tokens) {
 	free(tokens);
+}
+
+esil_op get_operator(char* const str) {
+	for (i32 i=0; i<NUM_ESIL_OPCODES; i++) {
+		if (strcmp(esil_op_str[i], str) == 0) {
+			return i;
+		}
+	}
+	return INVALID;
+}
+
+i32 exec_operation(stack_t *stack, esil_op operator) {
+	switch (operator) {
+	case INVALID: break;
+	case ESIL_ADD:
+		{
+		i32 op1 = pop(stack);
+		i32 op2 = pop(stack);
+		push(stack, op1 + op2);
+		break;
+		}
+	case ESIL_SUB:
+		{
+		i32 op1 = pop(stack);
+		i32 op2 = pop(stack);
+		push(stack, op1 - op2);
+		break;
+		}
+	case ESIL_MUL:
+	  {}
+	}
+
+	return head(stack);
 }

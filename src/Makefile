@@ -1,7 +1,7 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -std=c11
+CFLAGS=-Wall -Wextra -std=c11 -Wpedantic
 DEPS=../include/stack.h ../include/types.h
-OBJ=$(addprefix build/,stack.o esil.o)
+OBJ=$(addprefix build/,stack.o esil.o main.o)
 OBJ_TEST=$(addprefix build_test/,stack.o esil.o test.o)
 
 esil: $(OBJ)
