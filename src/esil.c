@@ -7,7 +7,13 @@ const char* esil_op_str[] = {
   "+",
   "-",
   "*",
-  "/"
+  "/",
+  "<<",
+  ">>",
+  "<<<",
+  "<<<",
+  "&",
+  "|"
 };
 
 char** tokens_from_string(char* string, i32 length, i32 *tokens_length) {
@@ -86,6 +92,41 @@ i32 exec_operation(stack_t *stack, esil_op operator) {
       i32 op2 = pop(stack);
       push(stack, op1 * op2);
       break;
+    }
+  case ESIL_SHL:
+    {
+      i32 op1 = pop(stack);
+      i32 op2 = pop(stack);
+      push(stack, op1 << op2);
+      break;
+
+    }
+  case ESIL_SHR:
+    {
+      i32 op1 = pop(stack);
+      i32 op2 = pop(stack);
+      push(stack, op1 >> op2);
+      break;
+
+    }
+  case ESIL_ROTL:
+    //TODO
+    break;
+  case ESIL_ROTR:
+    // TODO
+    break;
+  case ESIL_AND:
+    {
+      i32 op1 = pop(stack);
+      i32 op2 = pop(stack);
+      push(stack, op1 & op2);
+      break;
+    }
+  case ESIL_OR:
+    {
+      i32 op1 = pop(stack);
+      i32 op2 = pop(stack);
+      push(stack, op1 | op2);
     }
   }
 
