@@ -16,6 +16,24 @@ const char* esil_op_str[] = {
   "|"
 };
 
+const char* esil_regs_str[] = {
+  "eax",
+  "ebx",
+  "ecx",
+  "edx",
+  "esi",
+  "edi",
+  "eip",
+  "esp",
+  "ebp"
+};
+
+void init_vm_regs(esil_vm_t *vm) {
+  for (i32 i=0; i<NUM_ESIL_VM_REGS; i++) {
+    vm->regs[i] = 0;
+  }
+}
+
 char** tokens_from_string(char* string, i32 length, i32 *tokens_length) {
   i32 count = 1;
   for(i32 i=0; i<length; i++) {
@@ -60,6 +78,15 @@ esil_op get_operator(char* const str) {
     }
   }
   return INVALID;
+}
+
+register_t get_register(char* const str) {
+  for (i32 i=0; i<NUM_ESIL_VM_REGS; i++) {
+    if(strncmp(esil_regs_str[i], str, MAX_ESIL_REG_LEN) == 0) {
+      return i;
+    }
+  }
+  return INVALID_REG;
 }
 
 i32 exec_operation(stack_t *stack, esil_op operator) {
