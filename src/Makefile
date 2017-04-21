@@ -17,7 +17,4 @@ build/%.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 clean:
-	rm build/*
-	rm build_test/*
-	rm esil
-	rm tests
+	rm build/* build_test/* esil tests

@@ -5,9 +5,9 @@
 #include "types.h"
 
 typedef struct{
-	i32* data;
-	i32 length;
-	i32 sp;
+  i32* data;
+  i32 length;
+  i32 sp;
 } stack_t;
 
 i32 push(stack_t*, i32);
