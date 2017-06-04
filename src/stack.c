@@ -32,7 +32,7 @@ i32 pop(stack_t *stack) {
 void grow_stack(stack_t *stack) {
   if (stack->data != NULL) free(stack->data);
 
-  stack->data = allocate_stack_data(stack->length + 50);
+  stack->data = realloc(stack->data, stack->length + 50);
 
   stack->length += 50;
 }
