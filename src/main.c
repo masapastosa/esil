@@ -18,13 +18,13 @@ void exec_input_str(char* const line, i32 len, esil_vm_t *esil_vm) {
     esil_op operator = get_operator(tokens[i]);
 
     if (operator != INVALID) {
-      exec_operation(&(esil_vm->stack), operator);
+      exec_operation(&(esil_vm->data_stack), operator);
     } else if (reg != INVALID_REG) {
       // TODO
       printf("yay registers! #%d \n", reg);
     } else {
       long operand = strtol(tokens[i], NULL, 0);
-      push(&(esil_vm->stack), operand);
+      push(&(esil_vm->data_stack), operand);
     }
   }
   free_tokens(tokens);
@@ -32,21 +32,21 @@ void exec_input_str(char* const line, i32 len, esil_vm_t *esil_vm) {
 
 int main() {
   esil_vm_t esil_vm;
-  init_stack(&esil_vm.stack);
+  init_stack(&esil_vm.data_stack);
   init_vm_regs(&esil_vm);
 
   char line[LINE_SIZE] = {0};
   printf("> ");
   while(fgets(line, LINE_SIZE, stdin) != NULL) {
-    size_t len = strlen(line);
+    size_t len = strnlen(line, LINE_SIZE);
     // Avoid newline character
     line[--len] = 0;
 
     exec_input_str(line, len, &esil_vm);
     
-    i32 result = head(&esil_vm.stack);
+    i32 result = head(&esil_vm.data_stack);
     printf("%" PRId32 "\n", result);
     printf("> ");
   }
-  free(esil_vm.stack.data);
+  free(esil_vm.data_stack.data);
 }

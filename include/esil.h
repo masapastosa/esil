@@ -41,7 +41,8 @@ typedef enum {
 } register_t;
 
 typedef struct {
-  stack_t stack;
+  stack_t data_stack;
+  stack_t regs_stack;
   i32 regs[NUM_ESIL_VM_REGS];
 } esil_vm_t;
 
