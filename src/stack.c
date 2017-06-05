@@ -30,11 +30,15 @@ i32 pop(stack_t *stack) {
 }
 
 void grow_stack(stack_t *stack) {
-  if (stack->data != NULL) free(stack->data);
-
-  stack->data = realloc(stack->data, stack->length + 50);
-
   stack->length += 50;
+  if (stack->data == NULL) stack->data = allocate_stack_data(stack->length);
+  else {
+    stack->data = realloc(stack->data, stack->length * sizeof(i32));
+    if (stack->data == NULL) {
+      perror("Error reallocating memory");
+      exit(1);
+    }
+  }
 }
 
 i32* allocate_stack_data(size_t len) {
