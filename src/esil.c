@@ -34,6 +34,12 @@ void init_vm_regs(esil_vm_t *vm) {
   }
 }
 
+void split_tokens(char* string, i32 max_len) {
+  for(i32 i=0; i < max_len; i++) {
+    if (string[i] == ESIL_DELIMITER) string[i] = '\0';
+  }
+}
+
 char** tokens_from_string(char* string, i32 length, i32 *tokens_length) {
   i32 count = 1;
   for(i32 i=0; i<length; i++) {
@@ -41,6 +47,10 @@ char** tokens_from_string(char* string, i32 length, i32 *tokens_length) {
   }
 
   char** tokens = calloc(count, sizeof(char*));
+  if (tokens == NULL) {
+    perror("Error allocation memory");
+    exit(1);
+  }
 
   i32 tokens_counter = 0;
   i32 from = 0;
