@@ -89,7 +89,9 @@ register_t get_register(char* const str) {
   return INVALID_REG;
 }
 
-i32 exec_operation(stack_t *stack, esil_op operator) {
+i32 exec_operation(esil_vm_t *esil_vm, esil_op operator) {
+  stack_t *stack = &(esil_vm->data_stack);
+  stack_t *regs_stack = &(esil_vm->regs_stack);
   switch (operator) {
   case INVALID: break;
   case ESIL_ADD:

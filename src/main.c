@@ -18,7 +18,7 @@ void exec_input_str(char* const line, i32 len, esil_vm_t *esil_vm) {
     esil_op operator = get_operator(tokens[i]);
 
     if (operator != INVALID) {
-      exec_operation(&(esil_vm->data_stack), operator);
+      exec_operation(esil_vm, operator);
     } else if (reg != INVALID_REG) {
       // TODO
       printf("yay registers! #%d \n", reg);

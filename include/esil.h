@@ -51,6 +51,6 @@ char** tokens_from_string(char*, i32, i32*);
 void free_tokens(char**);
 esil_op get_operator(char* const);
 register_t get_register(char* const);
-i32 exec_operation(stack_t*, esil_op);
+i32 exec_operation(esil_vm_t*, esil_op);
 
 #endif
