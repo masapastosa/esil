@@ -47,6 +47,7 @@ typedef struct {
 } esil_vm_t;
 
 void init_vm_regs(esil_vm_t*);
+void split_tokens(char*, i32);
 char** tokens_from_string(char*, i32, i32*);
 void free_tokens(char**);
 esil_op get_operator(char* const);
