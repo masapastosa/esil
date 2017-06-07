@@ -6,7 +6,11 @@
 #include "../include/stack.h"
 
 i32 push(stack_t *stack, i32 value) {
+
+#ifdef DEBUG
   printf("push: %d -> %d\n", stack->sp, value);
+#endif
+
   if ((stack->sp) >= (stack->length - 1)) grow_stack(stack);
 
   (stack->data)[stack->sp] = value;
@@ -24,7 +28,9 @@ i32 pop(stack_t *stack) {
     stack->sp--;
   }
   
+#ifdef DEBUG
   printf("pop: %d -> %d\n", stack->sp, (stack->data)[stack->sp]);
+#endif
 
   return stack->data[stack->sp];
 }

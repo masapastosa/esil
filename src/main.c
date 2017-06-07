@@ -14,6 +14,7 @@ size_t strnlen(char* str, size_t max_len) {
 }
 
 void exec_input_str(char* line, i32 len, esil_vm_t *esil_vm) {
+  // split_tokens turns all ESIL_DELIMITER to nullbytes
   split_tokens(line, len);
   char* current_token = line;
 
@@ -38,6 +39,7 @@ void exec_input_str(char* line, i32 len, esil_vm_t *esil_vm) {
     len -= n_bytes;
     current_token += n_bytes;
   }
+
 }
 
 int main() {
@@ -56,7 +58,10 @@ int main() {
     exec_input_str(line, len, &esil_vm);
     
     i32 result = head(&esil_vm.data_stack);
+
+    preety_print_regs(esil_vm);
     printf("%" PRId32 "\n", result);
+
     printf("> ");
   }
   free(esil_vm.data_stack.data);

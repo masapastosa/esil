@@ -13,7 +13,8 @@ const char* esil_op_str[] = {
   "<<<",
   "<<<",
   "&",
-  "|"
+  "|",
+  "="
 };
 
 const char* esil_regs_str[] = {
@@ -56,6 +57,12 @@ register_t get_register(char* const str) {
     }
   }
   return INVALID_REG;
+}
+
+void preety_print_regs(const esil_vm_t esil_vm) {
+  for (i32 i; i < NUM_ESIL_VM_REGS; i++) {
+    printf("%s: 0x%x\n", esil_regs_str[i], esil_vm.regs[i]);
+  }
 }
 
 i32 exec_operation(esil_vm_t *esil_vm, esil_op operator) {
@@ -125,6 +132,16 @@ i32 exec_operation(esil_vm_t *esil_vm, esil_op operator) {
       i32 op1 = pop(stack);
       i32 op2 = pop(stack);
       push(stack, op1 | op2);
+      break;
+    }
+  case ESIL_REG_ASSIGN:
+    {
+      // TODO: Redesign to support reg to reg assignation, not just immediates.
+      i32 imm = pop(stack);
+      register_t reg = pop(regs_stack);
+
+      esil_vm->regs[reg] = imm;
+      break;
     }
   }
 

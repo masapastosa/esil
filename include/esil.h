@@ -6,7 +6,7 @@
 
 #define ESIL_DELIMITER ','
 
-#define NUM_ESIL_OPCODES 10
+#define NUM_ESIL_OPCODES 11
 #define MAX_ESIL_OP_LEN 2
 
 typedef enum {
@@ -20,7 +20,8 @@ typedef enum {
   ESIL_ROTL,
   ESIL_ROTR,
   ESIL_AND,
-  ESIL_OR
+  ESIL_OR,
+  ESIL_REG_ASSIGN
 } esil_op;
 
 #define NUM_ESIL_VM_REGS 9
@@ -48,8 +49,7 @@ typedef struct {
 
 void init_vm_regs(esil_vm_t*);
 void split_tokens(char*, i32);
-char** tokens_from_string(char*, i32, i32*);
-void free_tokens(char**);
+void preety_print_regs(const esil_vm_t);
 esil_op get_operator(char* const);
 register_t get_register(char* const);
 i32 exec_operation(esil_vm_t*, esil_op);
