@@ -41,9 +41,18 @@ typedef enum {
   EBP
 } register_t;
 
+typedef enum {
+  IMMEDIATE = 0,
+  REGISTER
+} esil_type_t;
+
 typedef struct {
   stack_t data_stack;
-  stack_t regs_stack;
+
+  // type_stack is a stack of the same length of data_stack, it's
+  // used to identify what kind of data is the data_stack value:
+  // a register or an immediate
+  stack_t type_stack;
   i32 regs[NUM_ESIL_VM_REGS];
 } esil_vm_t;
 

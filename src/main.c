@@ -27,9 +27,11 @@ void exec_input_str(char* line, i32 len, esil_vm_t *esil_vm) {
       register_t reg = get_register(current_token);
       if (reg != INVALID_REG) {
         // It's a register (eax, ebx, ecx...)
-        push(&(esil_vm->regs_stack), reg);
+        push(&(esil_vm->type_stack), REGISTER);
+        push(&(esil_vm->data_stack), reg);
       } else {
         // It's an operand
+        push(&(esil_vm->type_stack), IMMEDIATE);
         long operand = strtol(current_token, NULL, 0);
         push(&(esil_vm->data_stack), operand);
       }
@@ -45,7 +47,7 @@ void exec_input_str(char* line, i32 len, esil_vm_t *esil_vm) {
 int main() {
   esil_vm_t esil_vm;
   init_stack(&esil_vm.data_stack);
-  init_stack(&esil_vm.regs_stack);
+  init_stack(&esil_vm.type_stack);
   init_vm_regs(&esil_vm);
 
   char line[LINE_SIZE] = {0};
@@ -65,5 +67,5 @@ int main() {
     printf("> ");
   }
   free(esil_vm.data_stack.data);
-  free(esil_vm.regs_stack.data);
+  free(esil_vm.type_stack.data);
 }

@@ -67,7 +67,7 @@ void preety_print_regs(const esil_vm_t esil_vm) {
 
 i32 exec_operation(esil_vm_t *esil_vm, esil_op operator) {
   stack_t *stack = &(esil_vm->data_stack);
-  stack_t *regs_stack = &(esil_vm->regs_stack);
+  stack_t *type_stack = &(esil_vm->type_stack);
   switch (operator) {
   case INVALID: break;
   case ESIL_ADD:
@@ -136,11 +136,23 @@ i32 exec_operation(esil_vm_t *esil_vm, esil_op operator) {
     }
   case ESIL_REG_ASSIGN:
     {
-      // TODO: Redesign to support reg to reg assignation, not just immediates.
-      i32 imm = pop(stack);
-      register_t reg = pop(regs_stack);
+      esil_type_t type_dest = pop(type_stack);
+      if (type_dest != REGISTER) {
+        printf("Not a register!\n");
+        push(type_stack, type_dest);
+        break;
+      }
 
-      esil_vm->regs[reg] = imm;
+      register_t dest = pop(stack);
+
+      esil_type_t type_src = pop(type_stack);
+      i32 src = pop(stack);
+      if (type_src == REGISTER) {
+        esil_vm->regs[dest] = esil_vm->regs[src];
+      } else if (type_src == IMMEDIATE) {
+        esil_vm->regs[dest] = src;
+      }
+
       break;
     }
   }
